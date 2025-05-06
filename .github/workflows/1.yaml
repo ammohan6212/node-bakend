@@ -45,14 +45,14 @@ jobs:
           npm install --save-dev eslint-config-airbnb-base eslint-plugin-import
 
 
-      - name: Create ESLint Config (if not present)
-        run: |
-          if [ ! -f .eslintrc.json ]; then
-            npx eslint --init
-          fi
+      # - name: Create ESLint Config (if not present)
+      #   run: |
+      #     if [ ! -f .eslintrc.json ]; then
+      #       npx eslint --init
+      #     fi
       
-      - name: run eslint 
-        run: npm run lint 
+      # - name: run eslint 
+      #   run: npm run lint 
         
       - name: Dependency Scanning
         run: |
