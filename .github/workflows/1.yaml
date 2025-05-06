@@ -125,12 +125,18 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
     - name: Run SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master  # ✅ use tagged version
-      env:
-        SONAR_TOKEN: sqa_99bfa61f6eddfe30b677bdee31be4fba62e79614  # ✅ Best practice: store secrets in GitHub Secrets
-        SONAR_HOST_URL: http://34.55.243.214:9000/
+      uses: sonarsource/sonarqube-scan-action@master 
+      
+    - name: run sonar-scanner
+      run: |
+        sonar-scanner \
+        -Dsonar.projectKey=node-backend \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=http://34.55.243.214:9000 \
+        -Dsonar.token=sqp_31b88e9b4853166f29940aeb8b510c4e2762cf8d
+
+    
     
     # - name: Wait for SonarQube Quality Gate
     #   uses: sonarsource/sonarqube-quality-gate-action@master
