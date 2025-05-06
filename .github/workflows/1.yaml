@@ -42,6 +42,8 @@ jobs:
       - name: Install nodejs depencies1
         run: |
           npm install 
+          npm install --save-dev eslint-config-airbnb-base eslint-plugin-import
+
 
       - name: Run ESLint
         run: npm run lint
