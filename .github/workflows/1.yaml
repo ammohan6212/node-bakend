@@ -158,9 +158,7 @@ jobs:
       - name: Build zip artifact 
         run: | 
           mkdir build 
-          cp app.py build/ 
-          cp forms.py build/ 
-          cp -r templates build/ 
+          cp app.js build/
           cd build && zip -r artifact.zip .
 
       - name: Display the files 
