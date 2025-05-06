@@ -39,7 +39,7 @@ jobs:
         with:
           node-version: '18' 
 
-      - name: Install nodejs depencies 
+      - name: Install nodejs depencies1
         run: |
           npm install 
 
