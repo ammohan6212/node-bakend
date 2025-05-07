@@ -1,8 +1,16 @@
 // Import required modules
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const helmet = require('helmet'); // ✅ new
 
 const app = express();
+
+// ✅ Disable X-Powered-By
+app.disable('x-powered-by');
+
+// ✅ Apply Helmet for basic security
+app.use(helmet());
 
 // Middleware to log requests
 app.use(morgan('dev'));
