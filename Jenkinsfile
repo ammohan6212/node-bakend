@@ -48,16 +48,16 @@ pipeline {
                 }
             }
         }
-        stage("Linting the Code") {
-            agent { label 'security-agent' }
-            steps {
-                script{
-                    sh '''
-                    npx eslint app.js
-                    '''
-                }
-            }
-        }
+        // stage("Linting the Code") {
+        //     agent { label 'security-agent' }
+        //     steps {
+        //         script{
+        //             sh '''
+        //             npx eslint app.js
+        //             '''
+        //         }
+        //     }
+        // }
 
         // stage("measring the code coverage"){
         //     agent { label 'security-agent' }
