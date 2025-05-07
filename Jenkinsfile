@@ -97,7 +97,7 @@ pipeline {
                 script{
                     sh '''
                        snyk auth 9d262b22-1f2c-4069-adb9-696793789926
-                        snyk code test --sarif > snyk-code.sarif 
+                        snyk code test  
                         snyk test > snyk-dependecies.sarif
                         trivy fs . --vuln-type=library --security-checks=vuln 
                         ls -l 
