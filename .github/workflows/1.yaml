@@ -133,11 +133,11 @@ jobs:
       
     - name: run sonar-scanner
       run: |
-        sonar-scanner \
-        -Dsonar.projectKey=node-backend \
-        -Dsonar.sources=. \
-        -Dsonar.host.url=http://34.55.243.214:9000 \
-        -Dsonar.token=sqp_31b88e9b4853166f29940aeb8b510c4e2762cf8d
+        sonar-scanner 
+        # -Dsonar.projectKey=node-backend \
+        # -Dsonar.sources=. \
+        # -Dsonar.host.url=http://34.55.243.214:9000 \
+        # -Dsonar.token=sqp_31b88e9b4853166f29940aeb8b510c4e2762cf8d
 
     
     
@@ -211,6 +211,34 @@ jobs:
           output: 'trivy-results.txt'
           severity: 'CRITICAL,HIGH'
 
+      - name: install the dockle to check the container 
+        run: |
+          VERSION=$(
+            curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | \
+            grep '"tag_name":' | \
+            sed -E 's/.*"v([^"]+)".*/\1/'
+            )
+          sudo rpm -ivh https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.rpm
+
+      - name: check the container using the dockle 
+        run: dockle node:${{ needs.clone-and-tag.outputs.version }}
+
+      # - name : install thr grype to check the cotnainer 
+      #   run: |
+      #     curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh -o install-grype.sh
+      #     chmod +x install-grype.sh
+      #     sudo ./install-grype.sh -b /usr/local/bin
+      #     grype --version
+
+      - name: Run the Anchore Grype scan action
+        uses: anchore/scan-action@v6
+        id: scan
+        with:
+          image: "node:${{ needs.clone-and-tag.outputs.version }}"
+          fail-build: true
+          severity-cutoff: critical
+        continue-on-error: true
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -219,6 +247,11 @@ jobs:
             snyk-image-report.json
             trivy-results.txt
 
+      - name: upload Anchore scan SARIF report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
+        
       # - name: Upload SARIF file
       #   uses: github/codeql-action/upload-sarif@v3
       #   with:
