@@ -161,7 +161,6 @@ pipeline {
             steps{
                 script{
                     sh '''
-                        mkdir build 
                         cp app.js  build/ || true
                         cd build && zip -r go-artifact.zip .
                     '''
