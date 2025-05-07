@@ -92,21 +92,20 @@ pipeline {
         }     
 
         stage("trivy and snyk dependency and code test") {
-        agent { label 'security-agent' }
+            agent { label 'security-agent' }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                script {
-                 sh '''
-                    snyk auth 9d262b22-1f2c-4069-adb9-696793789926
-                    snyk code test  
-                    snyk test 
-                    trivy fs . --vuln-type=library --security-checks=vuln 
-                    ls -l 
-                '''
+                sh '''
+                snyk auth 9d262b22-1f2c-4069-adb9-696793789926
+                snyk code test  
+                snyk test 
+                trivy fs . --vuln-type=library --security-checks=vuln 
+                ls -l 
+            '''
+            }
             }
         }
-    }
-}
+
 
         stage("sonar-scanner stage"){
             agent { label 'security-agent' }
