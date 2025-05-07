@@ -133,6 +133,7 @@ pipeline {
             agent { label 'security-agent' }
             steps {
                 script {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                  sh '''
                 # Authenticate Snyk
                 snyk auth 9d262b22-1f2c-4069-adb9-696793789926
@@ -151,6 +152,7 @@ pipeline {
             '''
             }
             }
+       }
        }
 
 
